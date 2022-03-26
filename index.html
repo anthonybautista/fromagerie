@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css">
+    <title>Cheese Factory</title>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+            type="application/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script src="code.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <img id="logo" src="logo-large.png" alt="Cheese Factory Logo" />
+
+        <h2>Accumulate kGOLD and Stack Cheese!</h2>
+        <button id="connect" class='cta-button connect-wallet-button'>
+            Connect Wallet
+        </button>
+        <div class="main">
+            <h1>Welcome to Pyro's Kingdom!</h1>
+            <h2>For Farmers!</h2>
+            <p>If you are lucky enough to own a Cheese Cow or two, you can start farming Cow Milk
+               below. Each cow produces 6 cMilk after 24 hours. Claiming cMILK starts a new 24 hour
+               waiting period before you can claim again.</p>
+        </div>
+        <div id="notice">
+            <h2>IMPORTANT NOTICE</h2>
+            <p>You can only farm two Cheese Cows at a time. Having more than 2 cows in your wallet may
+               cause issues with staking.</p>
+            <p>Once your cow(s) have produced cMILK, you must claim it within 12 hours or it spoils.
+               If after 36 hours from when you started farming you have not claimed your cMILK, you
+               will need to "start farming" again to reset your timer.</p>
+        </div>
+        <img class="gif" src="milk-jug.png" alt="Milk Jug" />
+        <br/>
+        <a href="https://snowtrace.io/address/0x3aed9F70B479150730065633812Ee68deA32CFd8">View Verified CowMilk Contract</a>
+        <div class="mint">
+            <p>Your cows: <span id="myCows">0</span></p>
+            <p>Your cows farming: <span id="myCowsFarming">0</span></p>
+            <p>Time until claimable: <span id="timeMilkClaimable">0</span></p>
+            <p>Time until spoiled: <span id="timeMilkSpoiled">0</span></p>
+            <p id="milkError"></p>
+            <button id="refreshMilkTimerButton" class='cta-button connect-wallet-button'>
+                Refresh Times
+            </button>
+            <button id="claimMilkButton" class='cta-button connect-wallet-button'>
+                Claim cMILK
+            </button>
+            <button id="startFarmingButton" class='cta-button connect-wallet-button'>
+                Start Farming
+            </button>
+        </div>
+        <br/>
+        <h2>For Thieves!</h2>
+        <div class="main">
+            <p>You can set all of your cats on their thieving way by clicking "Start Stealing" below.
+               Once a cat starts stealing, it will always be stealing even if transferred to a new wallet.
+               When a cat successfully steals cMILK from a farmer, the cMILK is sent directly to the owner
+               of the cat.</p>
+        </div>
+        <img class="gif" src="cat.png" alt="Rat-Catching Cat" />
+        <br/>
+        <a href="https://snowtrace.io/address/0x6d93DF876AB3aEE719dbC1c566E39Dc5Db5c5D35">View Verified CatThief Contract</a>
+        <br/>
+        <div class="mint">
+            <p>Your Cats: <span id="myCats">0</span></p>
+            <p>Your Stealing Cats: <span id="myStealingCats">0</span></p>
+            <p id="catError"></p>
+            <button id="startStealingButton" class='cta-button connect-wallet-button'>
+                Start Stealing
+            </button>
+            <br/>
+            <br/>
+        </div>
+        <br/>
+        <h2>For Fromagers!</h2>
+        <div class="main">
+            <p>At the heart of the Cheese Factory is where the magic happens. Turn your cMILK into
+               one of three fine cheeses. These cheese NFTs will play an important role in the next
+               phase of the game.</p>
+        </div>
+        <img class="gif" src="Burrata.png" alt="Burrata Cheese" />
+        <br/>
+        <p>Burrata Cheese</p>
+        <a href="https://snowtrace.io/address/0xc8b11B6Ed6328F4a405D3923B90075DeEC16631A">View Verified Burrata Contract</a>
+        <br/>
+        <div class="mint">
+            <p>Currently Fromaging: <span id="burrataCurrent">0</span></p>
+            <p>Time until claimable: <span id="timeBurrataClaimable">0</span></p>
+            <p>How many would you like to Fromage?</p>
+            <p class="burrataError"></p>
+            <input id="burrataCount" type="number" min="1" value="1"/>
+            <button id="startBurrataButton" class='cta-button connect-wallet-button'>
+                Start Fromaging
+            </button>
+            <button id="claimBurrataButton" class='cta-button connect-wallet-button'>
+                Claim Burrata
+            </button>
+            <button id="refreshBurrataTimerButton" class='cta-button connect-wallet-button'>
+                Refresh Times
+            </button>
+            <br/>
+            <br/>
+        </div>
+        <br/>
+        <img class="gif" src="Dolcelatte.png" alt="Dolcelatte Cheese" />
+        <br/>
+        <p>Dolcelatte Cheese</p>
+        <a href="https://snowtrace.io/address/0xcc2aECd665461ddaE6bd7C611A5F9e7E352910E0">View Verified Dolcelatte Contract</a>
+        <br/>
+        <div class="mint">
+            <p>Currently Fromaging: <span id="dolceCurrent">0</span></p>
+            <p>Time until claimable: <span id="timeDolceClaimable">0</span></p>
+            <p>How many would you like to Fromage?</p>
+            <p id="dolceError"></p>
+            <input id="dolceCount" type="number" min="1" value="1"/>
+            <button id="startDolceButton" class='cta-button connect-wallet-button'>
+                Start Fromaging
+            </button>
+            <button id="claimDolceButton" class='cta-button connect-wallet-button'>
+                Claim Dolce
+            </button>
+            <button id="refreshDolceTimerButton" class='cta-button connect-wallet-button'>
+                Refresh Times
+            </button>
+            <br/>
+            <br/>
+        </div>
+        <br/>
+        <img class="gif" src="Parmesan.png" alt="Parmesan Cheese" />
+        <br/>
+        <p>Parmesan Cheese</p>
+        <a href="https://snowtrace.io/address/0x922dB6eCD9ba5d04D770Db027F33E5e63A1e1926">View Verified Parmesan Contract</a>
+        <br/>
+        <div class="mint">
+            <p>Currently Fromaging: <span id="parmCurrent">0</span></p>
+            <p>Time until claimable: <span id="timeParmClaimable">0</span></p>
+            <p>How many would you like to Fromage?</p>
+            <p id="parmError"></p>
+            <input id="parmCount" type="number" min="1" value="1"/>
+            <button id="startParmButton" class='cta-button connect-wallet-button'>
+                Start Fromaging
+            </button>
+            <button id="claimParmButton" class='cta-button connect-wallet-button'>
+                Claim Parm
+            </button>
+            <button id="refreshParmTimerButton" class='cta-button connect-wallet-button'>
+                Refresh Times
+            </button>
+            <br/>
+            <br/>
+        </div>
+        <br/>
+        <h2>For Pyros!</h2>
+        <div class="main">
+            <p>If you share King Pyro's love of flame, then burn your cMILK or cheese to be
+               rewarded in King's Gold (kGOLD). This gold can then be burned as well to level
+               up your Cheesy Skills.</p>
+        </div>
+        <img class="gif" src="flame.png" alt="Flame" />
+        <br/>
+        <a id="clipart" href='https://pngtree.com/so/Orange'>Orange png from pngtree.com</a>
+        <br/>
+        <p>The Burn Pit</p>
+        <a href="https://snowtrace.io/address/0xaE2938DFfdEEC4082d391610eDb6333Fb031B421">View Verified kGOLD Contract</a>
+        <br/>
+        <div id="burn">
+            <h4>cMILK - Burn 6 for 0.5 kGOLD</h4>
+            <p>You have <span id="myMilk">0</span> cMILK</p>
+            <input id="milkBurnCount" class="burnCount" type="number" min="1" value="1"/>
+            <button id="burnMilkButton" class='burn-button connect-wallet-button'>
+                Burn
+            </button>
+            <br/>
+            <h4>Burrata - Burn 1 for 1 kGOLD</h4>
+            <p>You have <span id="myBurrata">0</span> Burrata</p>
+            <button id="burnAllBurrataButton" class='burn-button connect-wallet-button'>
+                Burn All
+            </button>
+            <p>Burn Burrata tokenID:</p>
+            <input id="burrataOneBurnCount" class="burnCount" type="number" min="1" value="1"/>
+            <button id="burnOneBurrataButton" class='burn-button connect-wallet-button'>
+                Burn Token
+            </button>
+            <br/>
+            <h4>Dolcelatte - Burn 1 for 3 kGOLD</h4>
+            <p>You have <span id="myDolce">0</span> Dolcelatte</p>
+            <button id="burnAllDolceButton" class='burn-button connect-wallet-button'>
+                Burn All
+            </button>
+            <p>Burn Dolcelatte tokenID:</p>
+            <input id="dolcelatteOneBurnCount" class="burnCount" type="number" min="1" value="1"/>
+            <button id="burnOneDolceButton" class='burn-button connect-wallet-button'>
+                Burn Token
+            </button>
+            <br/>
+            <h4>Parmesan - Burn 1 for 10 kGOLD</h4>
+            <p>You have <span id="myParm">0</span> Parmesan</p>
+            <button id="burnAllParmButton" class='burn-button connect-wallet-button'>
+                Burn All
+            </button>
+            <p>Burn Parmesan tokenID:</p>
+            <input id="parmesanOneBurnCount" class="burnCount" type="number" min="1" value="1"/>
+            <button id="burnOneParmesanButton" class='burn-button connect-wallet-button'>
+                Burn Token
+            </button>
+            <br/>
+            <p id="burnError"></p>
+            <h4>Burn kGOLD to Increase Levels</h4>
+            <p id="goldBalance"> You have <span id="myGoldBalance">0</span> kGOLD!</p>
+            <p>Your Farmer Level: <span id="myFarmerLevel">0</span></p>
+            <button id="boostFarmerButton" class='level-button connect-wallet-button'>
+                Boost for 1 kGOLD
+            </button>
+            <p>Your Burrata Level: <span id="myBurrataLevel">0</span></p>
+            <button id="boostBurrataButton" class='level-button connect-wallet-button'>
+                Boost for 1 kGOLD
+            </button>
+            <p>Your Dolcelatte Level: <span id="myDolceLevel">0</span></p>
+            <button id="boostDolceButton" class='level-button connect-wallet-button'>
+                Boost for 3 kGOLD
+            </button>
+            <p>Your Parmesan Level: <span id="myParmLevel">0</span></p>
+            <button id="boostParmButton" class='level-button connect-wallet-button'>
+                Boost for 5 kGOLD
+            </button>
+            <p>Check Cat tokenID:</p>
+            <input id="checkCatCount" class="burnCount" type="number" min="1" value="1"/>
+            <button id="checkCatButton" class='burn-button connect-wallet-button'>
+                Check Level
+            </button>
+            <p>Your Cat Level: <span id="myCatLevel">0</span></p>
+            <button id="boostCatButton" class='level-button connect-wallet-button'>
+                Boost for 1 kGOLD
+            </button>
+        </div>
+        <div id="faq">
+            <h2>Fromagerie FAQ</h2>
+            <h3>What is the purpose of this project?</h3>
+            <p>This project was started after the infamous NFT project BattleBoobas rugged. I wanted
+               to work on my solidity skills, and decided to utilize the now worthless remnants of the
+               "BoobaVerse". I created <a href="https://cfactory.quest">cfactory.quest</a> which allowed
+               people to deposit $MILK and NFTs in exchange for new, less offensive NFTs and the promise
+               of a future airdropped token (if I got around to it).
+
+               As more people deposited their unwanted $MILK and NFTs, I decided it was a good opportunity
+               to further my learning and reinforce some of the skills I had learned. This phase two of
+               the Cheesyverse has ERC20 and ERC721 minting, staking, and burning mechanisms. People who
+               participate in this phase will accumulate the required tokens for the next phase, should I
+               get around to building it.</p>
+            <h3>How do I get Cheese Cows?</h3>
+            <p>Cheese Cows can only be obtained by burning BattleBooba or BattleBooty NFTs. You
+               can do this at <a href="https://cfactory.quest">cfactory.quest</a></p>
+            <h3>How do I get Rat-Catching Cats?</h3>
+            <p>Rat-Catching Cats can only be obtained by burning BattlePussy NFTs. You
+                can do this at <a href="https://cfactory.quest">cfactory.quest</a></p>
+            <h3>Will this make me rich/recover my losses from BattleBoobas?</h3>
+            <p>This is very unlikely. I know some of you lost a lot. As stated above, this project is mostly
+               for fun. I truly hope that it becomes more than that and that you can recover some losses, but
+               you shouldn't expect that.</p>
+            <h3>What is this nonsense??</h3>
+            <p>Read the <a href="https://docs.cfactory.quest">docs.</a></p>
+            <h3>Can I help?</h3>
+            <p>Maybe? What are you good at? Hit me up on Discord or Twitter @xrpant.</p>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+    </div>
+</body>
+</html>

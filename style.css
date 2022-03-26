@@ -1,0 +1,206 @@
+body {
+    background-color: tan;
+    color: black;
+    font-size: medium;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+}
+
+#wrapper {
+    width: 95%;
+    margin: auto;
+}
+
+.mint {
+    width: 300px;
+    margin: auto;
+    padding: 5px;
+    text-align: center;
+    border: 2px black solid;
+    border-radius: 17px;
+    background-color: #dec424;
+    color: black;
+}
+
+#burn {
+    width: 300px;
+    margin: auto;
+    padding: 5px;
+    text-align: center;
+    border: 2px black solid;
+    border-radius: 17px;
+    background-color: #dec424;
+    color: black;
+    display: grid;
+    grid-template-columns: 55% 25% 20%;
+    grid-template-rows: auto;
+}
+
+#notice {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    background-color: #dec424;
+    color: darkred;
+    border: 2px black solid;
+    border-radius: 17px;
+}
+
+#faq {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+}
+
+#faq h2 {
+    text-decoration: underline;
+}
+
+.main {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+}
+
+#milkError, #catError, #burrataError, #dolceError, #parmError, #burnError {
+    color: red;
+}
+
+#logo {
+    width: 300px;
+    height: 66px;
+    margin: auto;
+}
+
+#burrataCount, #dolceCount, #parmCount {
+    margin-top: 5px;
+    padding: 5px;
+    border: black solid 3px;
+    border-radius: 12px;
+    width: 135px;
+    text-align: center;
+}
+
+#burn p {
+    grid-column: 1/2;
+    text-align: left;
+    position: relative;
+    bottom: 2px;
+    font-size: 13px;
+}
+
+#burn h4 {
+    grid-column: 1/4;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+p#goldBalance {
+    grid-column: 1/4;
+    text-align: center;
+}
+
+.burnCount {
+    margin-top: 5px;
+    padding: 2px;
+    border: black solid 3px;
+    border-radius: 7px;
+    width: 95%;
+    max-width: 50px;
+    height: 20px;
+    text-align: center;
+    grid-column: 2/3;
+}
+
+.burn-button {
+    margin-top: 5px;
+    padding: 2px;
+    border: none;
+    border-radius: 7px;
+    width: 95%;
+    height: 30px;
+    color: black;
+    font-size: 11px;
+    cursor: pointer;
+    grid-column: 3/4;
+}
+
+.level-button {
+    margin-top: 5px;
+    padding: 2px;
+    border: none;
+    border-radius: 7px;
+    width: 95%;
+    height: 30px;
+    color: black;
+    font-size: 11px;
+    cursor: pointer;
+    grid-column: 2/4;
+}
+
+.cta-button {
+    margin-top: 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 150px;
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.connect-wallet-button {
+    background: rgb(136, 136, 140);
+    border: black 2px solid;
+}
+
+.connect-wallet-button:hover {
+    background: #675a03;
+}
+
+#connect {
+    margin-bottom:20px;
+}
+
+.gif {
+    width: 256px;
+    height: 256px;
+    margin-top: 10px;
+    border: solid black 2px;
+}
+
+#cheesy {
+    width: 350px;
+    height: 550px;
+}
+
+#clipart {
+    font-size: x-small;
+    margin: 0;
+    padding: 0;
+}
+
+@media only screen and (min-width: 390px) {
+    .cta-button {
+        font-size: 18px;
+    }
+
+}
+
+@media only screen and (min-width: 450px) {
+
+    body {
+        font-size: medium;
+    }
+}
+
+@media only screen and (min-width: 540px) {
+    #logo {
+        width: 450px;
+        height: 100px;
+    }
+
+}
