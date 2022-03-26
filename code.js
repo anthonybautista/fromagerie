@@ -424,6 +424,7 @@ const checkFarm = async () => {
         let time1 = 0;
         let time2 = 0;
         let cows = 0;
+        let count = myCows.length;
         await milkContract.cowStakedFrom(myCows[0]).then(function(count){
             time1 = Number(count);
         });
@@ -436,7 +437,7 @@ const checkFarm = async () => {
         if (time2 > 0) {
             cows += 1;
         }
-        $("span#myCows").text(`${myCows.length}`);
+        $("span#myCows").text(`${count}`);
         $("span#myCowsFarming").text(`${cows}`);
         let claimTime = await checkTime(time1, "claim", "milk");
         let spoilTime = await checkTime(time1, "spoil", "milk");
