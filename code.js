@@ -466,7 +466,7 @@ const checkBurrata = async () => {
     const connectedContract = new ethers.Contract(BURRATA_ADDRESS, BURRATA, signer);
 
     let currentCount = await connectedContract.isFromaging(accounts[0]);
-    let currentWait = await connectedContract.BURRATA_PRODUCE_TIME();
+    let currentWait = await connectedContract.cheeseTime(accounts[0]);
 
     if (currentCount > 0) {
         let time1 = 0;
@@ -488,7 +488,7 @@ const checkDolce = async () => {
     const connectedContract = new ethers.Contract(DOLCE_ADDRESS, DOLCE, signer);
 
     let currentCount = await connectedContract.isFromaging(accounts[0]);
-    let currentWait = await connectedContract.DOLCE_PRODUCE_TIME();
+    let currentWait = await connectedContract.cheeseTime(accounts[0]);
 
     if (currentCount > 0) {
         let time1 = 0;
@@ -510,7 +510,7 @@ const checkParm = async () => {
     const connectedContract = new ethers.Contract(PARM_ADDRESS, PARM, signer);
 
     let currentCount = await connectedContract.isFromaging(accounts[0]);
-    let currentWait = await connectedContract.PARM_PRODUCE_TIME();
+    let currentWait = await connectedContract.cheeseTime(accounts[0]);
 
     if (currentCount > 0) {
         let time1 = 0;
