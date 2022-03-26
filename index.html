@@ -94,7 +94,7 @@
             <p>Time until claimable: <span id="timeBurrataClaimable">0</span></p>
             <p>How many would you like to Fromage?</p>
             <p class="burrataError"></p>
-            <input id="burrataCount" type="number" min="1" value="1"/>
+            <input id="burrataCount" class="cheeseCount" type="number" min="1" value="1" max="10" />
             <button id="startBurrataButton" class='cta-button connect-wallet-button'>
                 Start Fromaging
             </button>
@@ -118,7 +118,7 @@
             <p>Time until claimable: <span id="timeDolceClaimable">0</span></p>
             <p>How many would you like to Fromage?</p>
             <p id="dolceError"></p>
-            <input id="dolceCount" type="number" min="1" value="1"/>
+            <input id="dolceCount" class="cheeseCount" type="number" min="1" value="1" max="10" />
             <button id="startDolceButton" class='cta-button connect-wallet-button'>
                 Start Fromaging
             </button>
@@ -142,7 +142,7 @@
             <p>Time until claimable: <span id="timeParmClaimable">0</span></p>
             <p>How many would you like to Fromage?</p>
             <p id="parmError"></p>
-            <input id="parmCount" type="number" min="1" value="1"/>
+            <input id="parmCount" class="cheeseCount" type="number" min="1" value="1" max="10"/>
             <button id="startParmButton" class='cta-button connect-wallet-button'>
                 Start Fromaging
             </button>
@@ -172,7 +172,7 @@
         <div id="burn">
             <h4>cMILK - Burn 6 for 0.5 kGOLD</h4>
             <p>You have <span id="myMilk">0</span> cMILK</p>
-            <input id="milkBurnCount" class="burnCount" type="number" min="1" value="1"/>
+            <input id="milkBurnCount" class="burnCount" type="number" min="6" value="6" step="6"/>
             <button id="burnMilkButton" class='burn-button connect-wallet-button'>
                 Burn
             </button>

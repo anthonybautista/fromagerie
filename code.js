@@ -17,7 +17,6 @@ const KGOLD_ADDRESS = "0xaE2938DFfdEEC4082d391610eDb6333Fb031B421";
 let provider;
 let signer;
 let currentNetwork;
-let connectedContract;
 let myCats = [];
 let myCows = [];
 let accounts;
@@ -224,7 +223,7 @@ const getMyBalances = async () => {
     });
 
     $("span#myMilk").text(`${(milkBal/(10**18).toFixed(1))}`);
-    $("span#myGold").text(`${(kGoldBal/(10**18).toFixed(1))}`);
+    $("span#myGoldBalance").text(`${(kGoldBal/(10**18).toFixed(1))}`);
     $("span#myBurrata").text(`${burrataBal}`);
     $("span#myDolce").text(`${dolceBal}`);
     $("span#myParm").text(`${parmBal}`);
@@ -273,15 +272,15 @@ const boostLevel = async (item) => {
 
         let boostTx;
 
-        if (item == "farmer") {
+        if (item === "farmer") {
             boostTx = await kgoldContract.boostFarmerLevel();
-        } else if (item == "burrata") {
+        } else if (item === "burrata") {
             boostTx = await kgoldContract.boostBurrataLevel();
-        } else if (item == "dolce") {
+        } else if (item === "dolce") {
             boostTx = await kgoldContract.boostDolcelatteLevel();
-        } else if (item == "parm") {
+        } else if (item === "parm") {
             boostTx = await kgoldContract.boostParmesanLevel();
-        } else if (item == "cat") {
+        } else if (item === "cat") {
             let tokenId = $("input#checkCatCount").val();
             boostTx = await kgoldContract.boostCatLevel(tokenId);
         }
@@ -311,13 +310,13 @@ const burnCheese = async (item) => {
         let tokenId = 0;
         let burnTx;
 
-        if (item == "burrata") {
+        if (item === "burrata") {
             tokenId = $("input#burrataOneBurnCount").val();
             burnTx = await connectedContract.exchangeBurrata(tokenId);
-        } else if (item == "dolce") {
+        } else if (item === "dolce") {
             tokenId = $("input#dolceOneBurnCount").val();
             burnTx = await connectedContract.exchangeDolce(tokenId);
-        } else if (item == "parm") {
+        } else if (item === "parm") {
             tokenId = $("input#parmesanOneBurnCount").val();
             burnTx = await connectedContract.exchangeParmesan(tokenId);
         }
@@ -345,11 +344,11 @@ const burnAllCheese = async (item) => {
         $("p#burnError").text("");
         let burnTx;
 
-        if (item == "burrata") {
+        if (item === "burrata") {
             burnTx = await connectedContract.exchangeAllBurrata(tokenId);
-        } else if (item == "dolce") {
+        } else if (item === "dolce") {
             burnTx = await connectedContract.exchangeAllDolce(tokenId);
-        } else if (item == "parm") {
+        } else if (item === "parm") {
             burnTx = await connectedContract.exchangeAllParmesan(tokenId);
         }
 
@@ -419,32 +418,44 @@ const checkFarm = async () => {
     const milkContract = new ethers.Contract(CMILK_ADDRESS, MILK, signer);
 
     let isFarming = await milkContract.isFarming(accounts[0]);
+    let currentWait = await milkContract.MILK_PRODUCE_TIME();
+    let spoilWait = await milkContract.MILK_SPOIL_TIME();
+    let numCows = myCows.length;
+
+    if (numCows > 1) {
+        numCows = 2;
+    }
 
     if (isFarming) {
         let time1 = 0;
         let time2 = 0;
         let cows = 0;
-        let count = myCows.length;
-        await milkContract.cowStakedFrom(myCows[0]).then(function(count){
+
+        await milkContract.cowStakedFrom(Number(myCows[0])).then(function(count){
             time1 = Number(count);
         });
-        await milkContract.cowStakedFrom(myCows[1]).then(function(count){
-            time2 = Number(count);
-        });
+
+        if (numCows > 1) {
+            await milkContract.cowStakedFrom(Number(myCows[1])).then(function(count){
+                time2 = Number(count);
+            });
+        }
+
         if (time1 > 0) {
             cows += 1;
         }
         if (time2 > 0) {
             cows += 1;
         }
-        $("span#myCows").text(`${count}`);
+
         $("span#myCowsFarming").text(`${cows}`);
-        let claimTime = await checkTime(time1, "claim", "milk");
-        let spoilTime = await checkTime(time1, "spoil", "milk");
+        let claimTime = await checkTime(time1, 1, currentWait);
+        let spoilTime = await checkTime(time1, 2, spoilWait);
         $("span#timeMilkClaimable").text(`${claimTime}`);
         $("span#timeMilkSpoiled").text(`${spoilTime}`);
 
     }
+    $("span#myCows").text(`${numCows}`);
 
 }
 
@@ -455,6 +466,7 @@ const checkBurrata = async () => {
     const connectedContract = new ethers.Contract(BURRATA_ADDRESS, BURRATA, signer);
 
     let currentCount = await connectedContract.isFromaging(accounts[0]);
+    let currentWait = await connectedContract.BURRATA_PRODUCE_TIME();
 
     if (currentCount > 0) {
         let time1 = 0;
@@ -462,7 +474,7 @@ const checkBurrata = async () => {
             time1 = Number(count);
         });
         $("span#burrataCurrent").text(`${currentCount}`);
-        let claimTime = await checkTime(time1, "claim", "burrata");
+        let claimTime = await checkTime(time1, 1, currentWait);
         $("span#timeBurrataClaimable").text(`${claimTime}`);
 
     }
@@ -476,6 +488,7 @@ const checkDolce = async () => {
     const connectedContract = new ethers.Contract(DOLCE_ADDRESS, DOLCE, signer);
 
     let currentCount = await connectedContract.isFromaging(accounts[0]);
+    let currentWait = await connectedContract.DOLCE_PRODUCE_TIME();
 
     if (currentCount > 0) {
         let time1 = 0;
@@ -483,7 +496,7 @@ const checkDolce = async () => {
             time1 = Number(count);
         });
         $("span#dolceCurrent").text(`${currentCount}`);
-        let claimTime = await checkTime(time1, "claim", "dolce");
+        let claimTime = await checkTime(time1, 1, currentWait);
         $("span#timeDolceClaimable").text(`${claimTime}`);
 
     }
@@ -497,6 +510,7 @@ const checkParm = async () => {
     const connectedContract = new ethers.Contract(PARM_ADDRESS, PARM, signer);
 
     let currentCount = await connectedContract.isFromaging(accounts[0]);
+    let currentWait = await connectedContract.PARM_PRODUCE_TIME();
 
     if (currentCount > 0) {
         let time1 = 0;
@@ -504,7 +518,7 @@ const checkParm = async () => {
             time1 = Number(count);
         });
         $("span#parmCurrent").text(`${currentCount}`);
-        let claimTime = await checkTime(time1, "claim", "parm");
+        let claimTime = await checkTime(time1, 1, currentWait);
         $("span#timeParmClaimable").text(`${claimTime}`);
 
     }
@@ -751,36 +765,22 @@ const startStealing = async () => {
 
 }
 
-const checkTime = async (time, type, item) => {
-    let waitTime = 0;
-    if (item == "milk" || item == "burrata") {
-        waitTime = 86400;
-    } else if (item == "dolce") {
-        waitTime = 172800;
-    } else if (item == "parm") {
-        waitTime = 259200;
-    }
+const checkTime = async (time, type, wait) => {
 
     let now = new Date().getTime();
-    let claimTime;
-
-    if (type == "claim"){
-        claimTime = new Date((time + waitTime) * 1000);
-    } else {
-        claimTime = new Date((time + 129600) * 1000);
-    }
+    let claimTime= new Date((time + Number(wait)) * 1000);
 
     // Find the distance between now and the count down date
     let distance = claimTime - now;
     // Time calculations for days, hours, minutes and seconds
-    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let hours = Math.floor((distance % (1000 * claimTime)) / (1000 * 60 * 60));
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
     if (hours > 0 || minutes > 0) {
         return `${hours}h:${minutes}m:${seconds}s`;
     } else {
-        if (type == "claim"){
+        if (type == 1){
             return 'Ready!';
         } else {
             return 'Spoiled!';
@@ -882,11 +882,11 @@ $(function() {
         event.preventDefault();
         boostLevel("burrata");
     })
-    $("button#boostDolcelatteButton").off().on("click", function(event) {
+    $("button#boostDolceButton").off().on("click", function(event) {
         event.preventDefault();
         boostLevel("dolce");
     })
-    $("button#boostParmesanButton").off().on("click", function(event) {
+    $("button#boostParmButton").off().on("click", function(event) {
         event.preventDefault();
         boostLevel("parm");
     })
