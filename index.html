@@ -40,8 +40,8 @@
         <br/>
         <a href="https://snowtrace.io/address/0x3aed9F70B479150730065633812Ee68deA32CFd8">View Verified CowMilk Contract</a>
         <div class="mint">
-            <p>Your cows: <span id="myCows">0</span></p>
-            <p>Your cows farming: <span id="myCowsFarming">0</span></p>
+            <p>Cows in Your Wallet: <span id="myCows">0</span></p>
+            <p>Cows Producing cMILK: <span id="myCowsFarming">0</span></p>
             <p>Time until claimable: <span id="timeMilkClaimable">0</span></p>
             <p>Time until spoiled: <span id="timeMilkSpoiled">0</span></p>
             <p id="milkError"></p>
@@ -68,8 +68,8 @@
         <a href="https://snowtrace.io/address/0x6d93DF876AB3aEE719dbC1c566E39Dc5Db5c5D35">View Verified CatThief Contract</a>
         <br/>
         <div class="mint">
-            <p>Your Cats: <span id="myCats">0</span></p>
-            <p>Your Stealing Cats: <span id="myStealingCats">0</span></p>
+            <p>Cats in Your Wallet: <span id="myCats">0</span></p>
+            <p>Cats Actively Stealing: <span id="myStealingCats">0</span></p>
             <p id="catError"></p>
             <button id="startStealingButton" class='cta-button connect-wallet-button'>
                 Start Stealing
@@ -183,7 +183,7 @@
                 Burn All
             </button>
             <p>Burn Burrata tokenID:</p>
-            <input id="burrataOneBurnCount" class="burnCount" type="number" min="1" value="1"/>
+            <select id="burrataOneBurnCount" class="burnSelect"></select>
             <button id="burnOneBurrataButton" class='burn-button connect-wallet-button'>
                 Burn Token
             </button>
@@ -194,7 +194,7 @@
                 Burn All
             </button>
             <p>Burn Dolcelatte tokenID:</p>
-            <input id="dolcelatteOneBurnCount" class="burnCount" type="number" min="1" value="1"/>
+            <select id="dolceOneBurnCount" class="burnSelect"></select>
             <button id="burnOneDolceButton" class='burn-button connect-wallet-button'>
                 Burn Token
             </button>
@@ -205,7 +205,7 @@
                 Burn All
             </button>
             <p>Burn Parmesan tokenID:</p>
-            <input id="parmesanOneBurnCount" class="burnCount" type="number" min="1" value="1"/>
+            <select id="parmOneBurnCount" class="burnSelect"></select>
             <button id="burnOneParmesanButton" class='burn-button connect-wallet-button'>
                 Burn Token
             </button>
@@ -230,7 +230,7 @@
                 Boost for 5 kGOLD
             </button>
             <p>Check Cat tokenID:</p>
-            <input id="checkCatCount" class="burnCount" type="number" min="1" value="1"/>
+            <select id="checkCatCount" class="burnSelect"></select>
             <button id="checkCatButton" class='burn-button connect-wallet-button'>
                 Check Level
             </button>

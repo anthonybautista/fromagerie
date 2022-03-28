@@ -120,6 +120,18 @@ p#goldBalance {
     grid-column: 2/3;
 }
 
+.burnSelect {
+    margin-top: 5px;
+    padding: 2px;
+    border: black solid 3px;
+    border-radius: 7px;
+    width: 95%;
+    max-width: 50px;
+    height: 30px;
+    text-align: center;
+    grid-column: 2/3;
+}
+
 .burn-button {
     margin-top: 5px;
     padding: 2px;

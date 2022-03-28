@@ -19,6 +19,9 @@ let signer;
 let currentNetwork;
 let myCats = [];
 let myCows = [];
+let myBurrata = [];
+let myDolce = [];
+let myParm = [];
 let accounts;
 const defaultNetwork = '0xa86a';
 const { ethereum } = window;
@@ -176,6 +179,9 @@ const getMyBalances = async () => {
 
     myCats = await catContract.walletOfOwner(accounts[0].toString());
     myCows = await cowContract.walletOfOwner(accounts[0].toString());
+    myBurrata = await burrataContract.walletOfOwner(accounts[0].toString());
+    myDolce = await dolceContract.walletOfOwner(accounts[0].toString());
+    myParm = await parmContract.walletOfOwner(accounts[0].toString());
     let milkBal = 0;
     let kGoldBal = 0;
     let burrataBal = 0;
@@ -222,6 +228,30 @@ const getMyBalances = async () => {
         parmLvl = Number(count);
     });
 
+    if (myCats.length > 0) {
+        for(let i = 0; i < myBurrata.length; i++) {
+            $("select#checkCatCount").append(`<option value="${i}">${myCats[i]}</option>`);
+        }
+    }
+
+    if (myBurrata.length > 0) {
+        for(let i = 0; i < myBurrata.length; i++) {
+            $("select#burrataOneBurnCount").append(`<option value="${i}">${myBurrata[i]}</option>`);
+        }
+    }
+
+    if (myDolce.length > 0) {
+        for(let i = 0; i < myDolce.length; i++) {
+            $("select#dolceOneBurnCount").append(`<option value="${i}">${myDolce[i]}</option>`);
+        }
+    }
+
+    if (myParm.length > 0) {
+        for(let i = 0; i < myParm.length; i++) {
+            $("select#parmOneBurnCount").append(`<option value="${i}">${myParm[i]}</option>`);
+        }
+    }
+
     $("span#myMilk").text(`${(milkBal/(10**18).toFixed(1))}`);
     $("span#myGoldBalance").text(`${(kGoldBal/(10**18).toFixed(1))}`);
     $("span#myBurrata").text(`${burrataBal}`);
@@ -248,7 +278,7 @@ const checkCatLevel = async () => {
         $("p#burnError").text("");
         let catLvl = 0;
 
-        let tokenId = $("input#checkCatCount").val();
+        let tokenId = $("select#checkCatCount option:selected").text();
 
         await thiefContract.checkCatLevel(tokenId).then(function(count){
             catLvl = Number(count);
@@ -281,7 +311,7 @@ const boostLevel = async (item) => {
         } else if (item === "parm") {
             boostTx = await kgoldContract.boostParmesanLevel();
         } else if (item === "cat") {
-            let tokenId = $("input#checkCatCount").val();
+            let tokenId = $("select#checkCatCount option:selected").text();
             boostTx = await kgoldContract.boostCatLevel(tokenId);
         }
 
@@ -311,13 +341,14 @@ const burnCheese = async (item) => {
         let burnTx;
 
         if (item === "burrata") {
-            tokenId = $("input#burrataOneBurnCount").val();
+            tokenId = $("select#burrataOneBurnCount option:selected").text();
+            console.log(tokenId);
             burnTx = await connectedContract.exchangeBurrata(tokenId);
         } else if (item === "dolce") {
-            tokenId = $("input#dolceOneBurnCount").val();
+            tokenId = $("select#dolceOneBurnCount option:selected").text();
             burnTx = await connectedContract.exchangeDolce(tokenId);
         } else if (item === "parm") {
-            tokenId = $("input#parmesanOneBurnCount").val();
+            tokenId = $("select#parmesanOneBurnCount option:selected").text();
             burnTx = await connectedContract.exchangeParmesan(tokenId);
         }
 
