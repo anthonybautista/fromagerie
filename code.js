@@ -17,11 +17,11 @@ const KGOLD_ADDRESS = "0xaE2938DFfdEEC4082d391610eDb6333Fb031B421";
 let provider;
 let signer;
 let currentNetwork;
-let myCats = [];
-let myCows = [];
-let myBurrata = [];
-let myDolce = [];
-let myParm = [];
+let myCats;
+let myCows;
+let myBurrata;
+let myDolce;
+let myParm;
 let accounts;
 const defaultNetwork = '0xa86a';
 const { ethereum } = window;
@@ -177,11 +177,18 @@ const getMyBalances = async () => {
     dolceContract = new ethers.Contract(DOLCE_ADDRESS, DOLCE, provider);
     parmContract = new ethers.Contract(PARM_ADDRESS, PARM, provider);
 
+    myCats = [];
+    myCows = [];
+    myBurrata = [];
+    myDolce = [];
+    myParm = [];
+
     myCats = await catContract.walletOfOwner(accounts[0].toString());
     myCows = await cowContract.walletOfOwner(accounts[0].toString());
     myBurrata = await burrataContract.walletOfOwner(accounts[0].toString());
     myDolce = await dolceContract.walletOfOwner(accounts[0].toString());
     myParm = await parmContract.walletOfOwner(accounts[0].toString());
+
     let milkBal = 0;
     let kGoldBal = 0;
     let burrataBal = 0;
@@ -229,24 +236,28 @@ const getMyBalances = async () => {
     });
 
     if (myCats.length > 0) {
-        for(let i = 0; i < myBurrata.length; i++) {
+        $("select#checkCatCount").empty();
+        for(let i = 0; i < myCats.length; i++) {
             $("select#checkCatCount").append(`<option value="${i}">${myCats[i]}</option>`);
         }
     }
 
     if (myBurrata.length > 0) {
+        $("select#burrataOneBurnCount").empty();
         for(let i = 0; i < myBurrata.length; i++) {
             $("select#burrataOneBurnCount").append(`<option value="${i}">${myBurrata[i]}</option>`);
         }
     }
 
     if (myDolce.length > 0) {
+        $("select#dolceOneBurnCount").empty();
         for(let i = 0; i < myDolce.length; i++) {
             $("select#dolceOneBurnCount").append(`<option value="${i}">${myDolce[i]}</option>`);
         }
     }
 
     if (myParm.length > 0) {
+        $("select#parmOneBurnCount").empty();
         for(let i = 0; i < myParm.length; i++) {
             $("select#parmOneBurnCount").append(`<option value="${i}">${myParm[i]}</option>`);
         }
@@ -342,7 +353,6 @@ const burnCheese = async (item) => {
 
         if (item === "burrata") {
             tokenId = $("select#burrataOneBurnCount option:selected").text();
-            console.log(tokenId);
             burnTx = await connectedContract.exchangeBurrata(tokenId);
         } else if (item === "dolce") {
             tokenId = $("select#dolceOneBurnCount option:selected").text();
@@ -376,11 +386,11 @@ const burnAllCheese = async (item) => {
         let burnTx;
 
         if (item === "burrata") {
-            burnTx = await connectedContract.exchangeAllBurrata(tokenId);
+            burnTx = await connectedContract.exchangeAllBurrata();
         } else if (item === "dolce") {
-            burnTx = await connectedContract.exchangeAllDolce(tokenId);
+            burnTx = await connectedContract.exchangeAllDolce();
         } else if (item === "parm") {
-            burnTx = await connectedContract.exchangeAllParmesan(tokenId);
+            burnTx = await connectedContract.exchangeAllParmesan();
         }
 
         $("p#burnError").text("Burning...");
