@@ -358,7 +358,7 @@ const burnCheese = async (item) => {
             tokenId = $("select#dolceOneBurnCount option:selected").text();
             burnTx = await connectedContract.exchangeDolce(tokenId);
         } else if (item === "parm") {
-            tokenId = $("select#parmesanOneBurnCount option:selected").text();
+            tokenId = $("select#parmOneBurnCount option:selected").text();
             burnTx = await connectedContract.exchangeParmesan(tokenId);
         }
 
